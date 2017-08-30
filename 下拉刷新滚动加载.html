@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{margin: 0;padding: 0;}
+        .header{
+            height: 40px;
+            width: 400px;
+            background-color: lavenderblush;
+            text-align: center;
+            line-height: 40px;
+        }
+        .wrapper{
+            width: 400px;
+            height: 600px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            overflow: hidden;
+        }
+        .pullDown img{
+            width: 40px;
+            height: 40px;
+            margin: 0 auto;
+            display: none;
+        }
+        .pullUp img{
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 0;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">朋友圈</div>
+    <div class="wrapper">
+        <div class="scoller">
+            <div class="pullDown">
+                <img src="images/加载.png" alt=""/>
+                <span>下拉刷新</span>
+            </div>
+            <ul class="content">
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li>566</li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li>100000</li>
+            </ul>
+            <div class="pullUp">
+                <img src="images/刷新.png" alt=""/>
+                <span>滚动加载</span>
+            </div>
+        </div>
+    </div>
+    <div class="footer"></div>
+<script src="./js/iscroll-probe.js"></script>
+<script>
+        var iscroll=new IScroll(".wrapper",{
+            scrollbars:true,//让当前内容出现滚动条
+            probeType:2//为了支持scroll滚动的时候触发事件
+        });
+        iscroll.on("scroll",function(){
+//            console.log("滚动的时候触发")
+//            console.log(this.y);
+            if(this.y>80){
+                document.querySelector(".pullDown span").innerHTML="释放刷新";
+                document.querySelector(".pullDown img").style.display="block";
+                document.querySelector(".pullDown span").classList.add("loading");//做一个标记  加了一个loading的类名
+            }
+            var distanceY=Math.abs(~~(this.y));
+            var winheight=window.innerHeight;
+            var contentHeight=document.querySelector(".scoller").offsetHeight;
+            if((distanceY+winheight)-contentHeight>80){//用户需要滚动加载
+                document.querySelector(".pullUp img").style.display="block";
+                document.querySelector(".pullUp span").innerHTML="立即加载";
+                document.querySelector(".pullUp span").classList.add("loading");
+            }
+        });
+        iscroll.on("scrollEnd", function () {
+//            console.log("滚动结束的时候触发")
+            if(document.querySelector(".pullDown span").classList.contains("loading")){
+                document.querySelector(".pullDown span").innerHTML="立即刷新";
+                document.querySelector(".pullDown img").style.display="none";
+                document.querySelector(".pullDown span").classList.remove("loading");
+                //发送ajax
+                console.log("正在加载下拉刷新数据");
+            }
+            if(document.querySelector(".pullUp span").classList.contains("loading")){
+                document.querySelector(".pullUp span").innerHTML="立即刷新";
+                document.querySelector(".pullUp img").style.display="none";
+                document.querySelector(".pullUp span").classList.remove("loading");
+                //发送ajax
+                console.log("正在加载滚动数据");
+            }
+        });
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

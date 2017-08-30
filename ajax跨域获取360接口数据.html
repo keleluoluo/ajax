@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>跨域接口访问</title>
+    <style>
+        *{margin: 0;padding: 0;list-style: none;}
+        .dv{
+            width: 700px;
+            margin: 100px auto;
+        }
+        .keywords{
+            width: 500px;
+            height: 35px;
+        }
+        input[type=button]{
+            border: none;
+            height: 40px;
+            width: 60px;
+        }
+        .message{
+            width: 500px;
+            border: 1px solid seagreen;
+            border-top: none;
+            display: none;
+        }
+        li{
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="dv">
+    <input type="text" class="keywords"/><input type="button" value="360一下"/>
+    <div class="message">
+        <ul>
+            <li>北京</li>
+            <li>桑哈哈</li>
+            <li>顶呱呱</li>
+            <li>蛋糕</li>
+            <li>傻瓜化</li>
+            <li>是</li>
+            <li>返回</li>
+            <li>环境</li>
+            <li>动脑筋吗</li>
+        </ul>
+    </div>
+</div>
+<script>
+    //我们要获取数据  获取360搜索接口的数据
+    //1.接口的地址   传递的参数   提交的方式   响应的接口
+    //https://sug.so.360.cn/suggest?callback=suggest_so&encodein=utf-8&encodeout=utf-8&format=json&fields=word&word=%E5%8C%97%E4%BA%AC
+    //get
+    //参数 ?callback=suggest_so&encodein=utf-8&encodeout=utf-8&format=json&fields=word&word=%E5%8C%97%E4%BA%AC
+    //返回值    suggest_so({"query":"北京","ext":"eci=184664d5499685ec&nlpv=suggest_3.2.2","result":[{"word":"北京时间","resrc":"ori","source":""},{"word":"北京天气","resrc":"ori","source":""},{"word":"北京地图","resrc":"ori","source":""},{"word":"北京社保网上服务平台","resrc":"ori","source":""},{"word":"北京银行","resrc":"ori","source":""},{"word":"北京天气预报","resrc":"ori","source":""},{"word":"北京地铁","resrc":"ori","source":""},{"word":"北京大学","resrc":"ori","source":""},{"word":"北京汽车摇号","resrc":"ori","source":""},{"word":"北京人事考试网","resrc":"ori","source":""}],"version":"3.2.2"});
+    //如果直接XMLHttpRequest对象发送请求  肯定失败 因为跨域
+    //我们可以用script标签去发送请求
+
+
+
+    //监听键盘事件  键盘的按键按下松口的时候触发
+    function getInfo(obj){
+        var arr=[];
+        for(var i= 0;i<obj.result.length;i++){
+            var li="<li>"+obj.result[i].word+"</li>";
+            arr.push(li);
+        }
+        var html=arr.join("");
+        document.querySelector(".message").style.display="block";
+        document.querySelector(".message").innerHTML=html;
+    }
+    document.querySelector(".keywords").onkeyup=function(){
+        var keywords=this.value;
+        var script =document.createElement("script");
+        script.src="https://sug.so.360.cn/suggest?callback=getInfo&encodein=utf-8&encodeout=utf-8&format=json&fields=word&word="+keywords;
+        document.body.appendChild(script);
+    }
+
+</script>
+</body>
+</html>
